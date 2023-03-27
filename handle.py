@@ -28,7 +28,10 @@ def handle_file(filename):
     for idx, row in enumerate(ws1.values):
         if idx == 0:
             continue
-        data[row[1]] = {row[2]: row[0]}
+        if row[1] in data:
+            data[row[1]][row[2]] = row[0]
+        else:
+            data[row[1]] = {row[2]: row[0]}
 
     cabin_list = list(data.keys())
     max_row = ws2.max_row
@@ -47,7 +50,6 @@ def handle_file(filename):
                     if server_cell.value not in cabin_list and temp_row_idx <= max_row:
                         u_pos = ws2.cell(row=temp_row_idx, column=(temp_col_idx - 2))
                         server_name = data.get(cabin, "").get(u_pos.value, "")
-                        # print("res", cabin, row_idx, temp_row_idx, col_idx, temp_col_idx, u_pos.value, server_name)
                         if server_name:
                             ws2.cell(row=temp_row_idx, column=temp_col_idx, value=server_name)
                     else:
