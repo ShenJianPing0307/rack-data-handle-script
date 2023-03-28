@@ -32,7 +32,6 @@ def handle_file(filename):
             data[row[1]][row[2]] = row[0]
         else:
             data[row[1]] = {row[2]: row[0]}
-
     cabin_list = list(data.keys())
     max_row = ws2.max_row
     max_column = ws2.max_column
@@ -42,6 +41,7 @@ def handle_file(filename):
             temp_col_idx = col_idx
             c = ws2.cell(row=row_idx, column=col_idx)
             cabin = c.value
+
             if cabin in cabin_list:
                 flag = True
                 while flag:
@@ -51,6 +51,7 @@ def handle_file(filename):
                         u_pos = ws2.cell(row=temp_row_idx, column=(temp_col_idx - 2))
                         server_name = data.get(cabin, "").get(u_pos.value, "")
                         if server_name:
+                            print(server_name, cabin, temp_row_idx, temp_col_idx)
                             ws2.cell(row=temp_row_idx, column=temp_col_idx, value=server_name)
                     else:
                         flag = False
